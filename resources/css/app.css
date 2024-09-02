@@ -9,9 +9,11 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
 }
-
+.bg4 {
+    background-attachment: fixed;
+    background-image: url("/resources/images/bg4.jpg");
+}
 .bg1 {
     background-image: url("/resources/images/bg1.jpg");
 }
@@ -128,8 +130,13 @@ main.dashboard {
     max-width: 90%;
     max-height: 30px;
     overflow: hidden;
-}
+    padding: 5px;
 
+    border-radius: 5px;
+}
+.board-name:focus {
+    background-color: white;
+}
 .board-content {
     overflow-x: scroll;
     width: 100vw;
@@ -146,6 +153,36 @@ main.dashboard {
     max-height: 50%;
 }
 
+.list-card ol {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.task,
+.new-task,
+.list-name {
+    padding: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    border: 0;
+}
+
+.task,
+.new-task {
+    border-radius: 5px;
+    width: 95%;
+}
+.task {
+    border: 2px solid rgb(214, 214, 214);
+}
+.new-task {
+    background-color: inherit;
+}
+.new-task:hover {
+    background-color: #60555554;
+}
 .new-list-card {
     width: 18rem;
     height: 45px;
@@ -156,19 +193,18 @@ main.dashboard {
     position: relative;
 }
 
-.new-list-card:hover {
+.new-list-card:hover,
+.new-task-card:hover {
     cursor: pointer;
 }
 
-.add-list {
+.add-card {
     visibility: hidden;
     position: absolute;
     top: 0;
     left: 0;
     display: flex;
-    /* flex-direction: column; */
     flex-wrap: wrap;
-    /* justify-content: space-around; */
     width: 100%;
     background-color: white;
     border-radius: 5px;
@@ -176,11 +212,11 @@ main.dashboard {
     cursor: default;
 }
 
-.add-list button {
+.add-card button {
     width: fit-content;
 }
 
-.add-list .close {
+.add-card .close {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -192,6 +228,6 @@ main.dashboard {
     border-radius: 5px;
 }
 
-.add-list i:hover {
+.add-card i:hover {
     background-color: #cdc1c1;
 }

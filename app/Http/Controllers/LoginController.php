@@ -25,7 +25,7 @@ class LoginController extends Controller
         if ($user && Hash::check($password, $user->password)){
             $secretKey = env('JWT_SECRET');
             $token = JWT::encode(['user_id' => $user->id], $secretKey, 'HS256');
-            $cookie = cookie('auth_token', $token, 60);
+            $cookie = cookie('auth_token', $token, 43,200);
             return redirect()->route('dashboard')->withCookie($cookie);
         }
         else{
