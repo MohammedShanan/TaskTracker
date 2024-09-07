@@ -8,9 +8,9 @@ if (newBoard) {
 
 function newBoardCard() {
     const card = document.querySelector(".new-board-card");
-    const form = createForm("/boards", "POST", "mt-5");
+    const form = createForm("/boards/store", "POST", "mt-5");
     const label = document.createElement("label");
-    const input = createInput("text", "", "form-control");
+    const input = createInput("text", "", "board_name", "form-control");
     // used to not load to the DOM directly
     const fragment = document.createDocumentFragment();
     const button = createButton(
@@ -44,10 +44,11 @@ function newBoardCard() {
     return card;
 }
 
-function createInput(type, placeHolder, ...classes) {
+function createInput(type, placeHolder, name, ...classes) {
     const input = document.createElement("input");
     input.classList.add(...classes);
     input.type = type;
+    input.name = name;
     input.placeholder = placeHolder;
     return input;
 }
@@ -60,7 +61,6 @@ function createForm(action, method, ...classes) {
     const csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
-    console.log(csrfToken);
     const csrfInput = document.createElement("input");
     csrfInput.setAttribute("type", "hidden");
     csrfInput.setAttribute("name", "_token");
@@ -77,3 +77,4 @@ function createButton(type, text, disabled = false, ...classes) {
     button.classList.add(...classes);
     return button;
 }
+

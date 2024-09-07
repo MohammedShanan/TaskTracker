@@ -1,21 +1,23 @@
 @extends('layouts.app')
 @section('title', 'Dashboard')
+@section('js')
+@vite(['resources/js/dashboard.js'])
+@endsection
 @section('content')
 <main class="dashboard">
     <aside class="sidebar">
         <h4>Recently viewed</h4>
         <ul class="recent">
-            <li><a href="#">Board 4</a></li>
-            <li><a href="#">Board 7</a></li>
-            <li><a href="#">Board 1</a></li>
-            <li><a href="#">Board 3</a></li>
+            @foreach($recently_viewed as $recent)
+            <li><a href="{{route('boards.show', $recent[0])}}">{{$recent[1]}}</a></li>
+            @endforeach
         </ul>
     </aside>
     <section class="boards">
         <div class="new-board">Create new Board</div>
         <div class="new-board-card card"></div>
     @foreach($boards as $board)
-    <a class="board bg1" href="{{route('boards.show', 3)}}" id="">{{$board}}</a>
+    <a class="board bg1" href="{{route('boards.show', $board->id)}}" id="{{$board->id}}">{{$board->name}}</a>
     @endforeach
     </section>
 </main>

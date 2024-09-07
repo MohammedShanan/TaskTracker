@@ -1,5 +1,5 @@
-@import './dashboard.css';
-@import './board.css';
+@import "./dashboard.css";
+@import "./board.css";
 
 * {
     box-sizing: border-box;
@@ -35,4 +35,29 @@ header {
     top: 0;
 }
 
+/* Popup Container */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
 
+/* Popup Content */
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.popup-content form button {
+    width: 100px;
+}

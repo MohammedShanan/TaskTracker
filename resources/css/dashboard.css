@@ -27,7 +27,7 @@ main.dashboard {
 .boards {
     display: grid;
     grid-template-columns: repeat(4, auto);
-    grid-template-rows: auto;
+    grid-auto-rows: max-content;
     row-gap: 10px;
     column-gap: 10px;
     background-color: rgba(26, 142, 220, 0.795);
@@ -51,6 +51,7 @@ main.dashboard {
     width: 100%;
     height: 100%;
     padding: 10px;
+    z-index: 100;
 }
 
 .card:hover {
