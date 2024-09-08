@@ -13,10 +13,10 @@
 <body>
 <header><nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/dashboard">TaskTracker</a>
-    <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
+    <a class="navbar-brand" href="{{route('boards.index')}}">TaskTracker</a>
+    <form method="POST" class="d-flex" action="{{route('logout')}}">
+        @csrf
+      <button class="btn btn-outline-secondary" type="submit">logout</button>
     </form>
   </div>
 </nav></header>

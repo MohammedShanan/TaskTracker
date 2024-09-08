@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 lastTask.before(result);
             });
             input.value = "";
-            // addTask.style.display = "none";
         }
     };
     newList();
@@ -128,12 +127,12 @@ async function createList(listName, listBoardId) {
                     <li class="hide list-group-item" id='new_task'>
                             <div class="add-card"> 
                                 <input class="form-control" type="text" name="task_name" placeholder="Enter list name...">
-                                <button class="btn btn-primary mt-3" data-list-id="list-${id}" onclick="addTask(this)">Add task</button>
+                                <button class="btn btn-primary mt-3" data-list-id="${id}" onclick="addTask(this)">Add task</button>
                                 <i class="fa-solid fa-xmark close"></i>
                             </div>
                     </li>
                 </ol>
-                <div class="new-task-card show" data-list-id="list-${id}" onclick="newTaskPrompt(this)">Add a task</div>
+                <div class="new-task-card show" data-list-id="${id}" onclick="newTaskPrompt(this)">Add a task</div>
             </div>`;
         return list;
     } catch (error) {

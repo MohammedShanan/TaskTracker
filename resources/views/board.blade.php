@@ -10,7 +10,7 @@
             <div class="popup-content">
         <h2>Delete Board?</h2>
         <p>All lists, cards and actions will be deleted, and you won’t be able to re-open the board. There is no undo.</p>
-        <form method="POST" {{route('boards.delete', $board->id)}}">
+        <form method="POST" {{route('boards.destroy', $board->id)}}">
             @csrf
             @method('DELETE')
         <button type="submit" class="btn btn-danger">Yes</button>

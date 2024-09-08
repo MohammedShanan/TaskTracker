@@ -5,6 +5,6 @@
 @section('link', 'register')
 @section('link name', 'Sign up')
 @section('content')
-        <input type="text" name="user_name" placeholder="User name" class="mb-2">
+        <input type="text" name="name" placeholder="User name" class="mb-2">
         <input type="text" name="password" placeholder="Password" class="mb-2">
 @endsection

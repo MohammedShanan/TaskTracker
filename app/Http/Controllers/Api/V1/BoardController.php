@@ -37,6 +37,7 @@ class BoardController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Log::info('User has logged in.', [$request->all()]);
         try {
             
             $board = Board::find($id);

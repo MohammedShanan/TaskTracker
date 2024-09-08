@@ -12,31 +12,40 @@ class TaskTrackerController extends Controller
 {
     public function index()
     {
-        $token = request()->cookie('auth_token');
+        // dd("here in index");
+        $token = request()->cookie('user_id');
         $userId = decodeToken($token);
         $recentlyViewed =
             json_decode(request()->cookie('recently_viewed', '[]'), true);
         if ($userId) {
             $user = User::findOrFail($userId);
-            return view('dashboard', ['boards' => $user->boards, 'recently_viewed' => $recentlyViewed]);
+            return view('index', ['boards' => $user->boards, 'recently_viewed' => $recentlyViewed]);
         } else {
             return view('login');
         }
     }
     public function show(Board $board)
     {
-        $recentlyViewed = json_decode(request()->cookie('recently_viewed', '[]'), true);
-        if (count($recentlyViewed) == 4) {
-            array_pop($recentlyViewed);
+        $token = request()->cookie('user_id');
+        $userId = decodeToken($token);
+        if ($userId) {
+            $recentlyViewed = json_decode(request()->cookie('recently_viewed', '[]'), true);
+
+            if (array_key_exists($board->id, $recentlyViewed)) {
+                unset($recentlyViewed[$board->id]);
+            } elseif (count($recentlyViewed) == 6) {
+                $last = array_key_last($recentlyViewed);
+                unset($recentlyViewed[$last]);
+            }
+            $recentlyViewed = [$board->id => $board->name] + $recentlyViewed;
+            Cookie::queue(Cookie::make('recently_viewed', json_encode($recentlyViewed), 43200));
+            return view('board', ['board' => $board]);
         }
-        array_unshift($recentlyViewed, [$board->id, $board->name]);
-        Cookie::queue(Cookie::make('recently_viewed', json_encode($recentlyViewed), 43200));
-        return view('board', ['board' => $board]);
     }
 
     public function store()
     {
-        $token = request()->cookie('auth_token');
+        $token = request()->cookie('user_id');
         request()->validate([
             'name' => 'string|max:255',
         ]);
@@ -51,15 +60,11 @@ class TaskTrackerController extends Controller
             return view('login');
         }
     }
-    public function delete(Board $board)
+    public function destroy(Board $board)
     {
         $recentlyViewed = json_decode(request()->cookie('recently_viewed', '[]'), true);
-        foreach ($recentlyViewed as $index => $recent) {
-            if ($recent[0] == $board->id) {
-                unset($recentlyViewed[$index]);
-                Cookie::queue(Cookie::make('recently_viewed', json_encode($recentlyViewed), 43200));
-            }
-        }
+        unset($recentlyViewed[$board->id]);
+        Cookie::queue(Cookie::make('recently_viewed', json_encode($recentlyViewed), 43200));
         $board->delete();
         return to_route('boards.index');
     }
