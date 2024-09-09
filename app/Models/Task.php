@@ -11,12 +11,13 @@ class Task extends Model
     protected $fillable = [
         'name',
         'description',
+        'status',
         'position',
         'due_date',
         'priority',
         'list_id'
     ];
-    public function list() 
+    public function list()
     {
         return $this->belongsTo(TasksList::class);
     }

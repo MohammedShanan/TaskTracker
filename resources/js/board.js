@@ -1,8 +1,18 @@
-document.addEventListener("DOMContentLoaded", function () {
-    window.testClick = function (e) {
-        console.log(e);
-    };
+import flatpickr from "flatpickr";
 
+document.addEventListener("DOMContentLoaded", function () {
+    const fp = flatpickr("#datepicker", {
+        dateFormat: "Y-m-d",
+        appendTo: document.querySelector("#calender"),
+        allowInput: true, // Allow typing in the input field
+        clickOpens: true, // Keep this true to allow the calendar to open on click
+        onClose: function (selectedDates, dateStr, instance) {
+            // instance._input.blur(); // Keep the input from losing focus to allow typing
+            instance.open(); // Reopen the calendar
+        },
+        // Add more options if needed
+    });
+    fp.open();
     window.changeName = function (element) {
         const type = element.getAttribute("data-type");
         const prevName = element.getAttribute("data-name");

@@ -6,16 +6,60 @@
 @vite(['resources/js/board.js'])
 @endsection
 @section('content')
+        <div class="details-container">
+        <div class="task-details">
+            <div class="details">
+                <div class="date-selection">
+                        <div id="calender">
+                        </div>
+                        <div class="date">
+                            <input type="text" id="datepicker" autocomplete="off">
+                            <button name="save" class="btn btn-primary">Save</button>
+                        </div>
+                </div>
+                <div contenteditable class="task-header">This Task Header</div>
+                <div class="task-due-date">
+                    <input type="checkbox" name="status" id="">
+                    <button class="btn btn-secondary due-date">Date here</button>
+                </div>
+                <div class="task-description">
+                    <h3>Description</h3>
+                    <div style="display: none">This is where the description will be</div>
+                    <div id="edit-description">
+                        <textarea  name="description" id="" cols="30" rows="6"></textarea>
+                        <div>
+                            <button class="btn btn-primary">Save</button>
+                            <button class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="task-priority">
+                    <h3>priority</h3>
+                    <select class="form-select" name="priority" id="">
+                        <option value="" selected>None</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div id="move-task">
+                    <button class="btn btn-danger">Delete Task</button>
+                    <button class="btn btn-secondary">Move Task</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        {{-- Delete Board popup --}}
         <div id="popup" class="popup">
             <div class="popup-content">
         <h2>Delete Board?</h2>
         <p>All lists, cards and actions will be deleted, and you won’t be able to re-open the board. There is no undo.</p>
-        <form method="POST" {{route('boards.destroy', $board->id)}}">
+        <form method="POST" action="{{route('boards.destroy', $board->id)}}">
             @csrf
             @method('DELETE')
         <button type="submit" class="btn btn-danger">Yes</button>
-        <button id="closePopup" class="btn btn-secondary">No</button>
-        </form>
+        <button id="closePopup" class="btn btn-secondary" type="button">No</button>
+    </form>
             </div>
         </div>
 <main class="board-main-content bg4">
@@ -31,7 +75,17 @@
                 </div> 
                 <ol class="list-group border-0" >
                     @foreach($list->tasks as $task)
-                    <li class="list-group-item task" id="task-{{$task->id}}">{{$task->name}}<ul><li></li></li>
+                    <li class="list-group-item task" data-priority="{{$task->priority}}" data-status="{{$task->status}}" data-position="{{$task->position}}" data-list-id="{{$list->id}}" id="task-{{$task->id}}">
+                        <div class="task-name" >{{$task->name}}</div>                        
+                        <ul class="task-properties">
+                            @if ($task->due_date)      
+                                <li><i class="fa-solid fa-clock clock"></i>{{ \Carbon\Carbon::parse($task->due_date)->format('M j, Y') }}</li>
+                            @endif
+                            @if ($task->description)      
+                                <li>icon</li>
+                            @endif
+                        </ul>
+                    </li>
                     @endforeach
                     <li class="hide list-group-item" id='new_task'>
                             <div class="add-card"> 
