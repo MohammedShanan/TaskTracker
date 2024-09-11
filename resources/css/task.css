@@ -1,0 +1,187 @@
+@import url("https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css");
+.task-name {
+    font-weight: 400;
+}
+
+li[data-priority="low"] {
+    background-color: antiquewhite;
+}
+
+li[data-priority="medium"] {
+    background-color: rgb(200, 204, 75);
+}
+
+li[data-priority="high"] {
+    background-color: rgb(182, 100, 100);
+}
+
+.task-properties {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    font-size: small;
+    gap: 5px;
+}
+
+.has-due-date {
+    order: 1;
+}
+
+.has-description {
+    order: 2;
+}
+
+.status {
+    order: 3;
+}
+
+i.clock {
+    width: fit-content;
+    position: relative;
+    padding-right: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.details-container {
+    display: block; /* Hidden by default */
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    overflow: scroll;
+}
+
+.task-details {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgb(226 233 244);
+    padding: 30px;
+    width: 50%;
+    height: fit-content;
+    border-radius: 10px;
+    z-index: 100000;
+    border: none;
+}
+
+.details {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    height: 100%;
+}
+
+.task-header {
+    font-size: large;
+    font-weight: 500;
+    padding: 7px;
+}
+
+.task-header:focus {
+    background-color: white;
+}
+
+.task-due-date {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.task-due-date input {
+    width: 25px;
+}
+
+.date-selection {
+    position: fixed;
+    top: 70px;
+    left: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 70px;
+    background-color: white;
+    padding: 20px;
+    width: 320px;
+    height: 400px;
+    border-radius: 10px;
+    visibility: hidden;
+    overflow-y: scroll;
+}
+
+.date-selection-header {
+    text-align: center;
+}
+
+.date {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#calender {
+    margin-bottom: 170px;
+}
+
+.flatpickr-calendar {
+    position: absolute !important;
+    visibility: inherit !important;
+    top: 60px !important;
+    left: 50% !important;
+    z-index: 40000;
+    width: 100%;
+    transform: translateX(-50%) !important;
+    border: none !important;
+    box-shadow: none;
+}
+
+.flatpickr-calendar::before,
+.flatpickr-calendar::after {
+    display: none;
+}
+
+.flatpickr-calendar .flatpickr-day,
+.flatpickr-calendar .flatpickr-weekday,
+.flatpickr-calendar .flatpickr-month,
+.flatpickr-calendar .flatpickr-time {
+    font-size: 15px; /* Adjust the font size */
+    /* color: white !important; */
+}
+
+#description {
+    background-color: #eeeeee;
+    cursor: pointer;
+    padding: 10px;
+    transition: background-color 0.5s ease;
+    border-radius: 3px;
+}
+
+#description:hover {
+    background-color: #9da69d92;
+}
+
+#edit-description {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    padding: 5px;
+}
+
+textarea[name="description"] {
+    padding: 10px;
+}
+
+#task-operations {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}

@@ -1,0 +1,125 @@
+.list-card {
+    width: 300px;
+    min-height: 100px;
+    display: grid;
+    grid-template-rows: 40px auto auto;
+    height: max-content;
+    max-height: 100%;
+    overflow: hidden;
+    row-gap: 5px;
+}
+
+.list-card ol {
+    display: grid;
+    max-height: 280px;
+    grid-auto-rows: max-content;
+    overflow-y: auto;
+}
+
+.task,
+.new-task,
+.list-name {
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    border: 0;
+}
+
+.list-name:focus {
+    background-color: white;
+    overflow: hidden;
+    border: 0;
+}
+
+.task,
+.new-task {
+    border-radius: 5px;
+    width: 95%;
+}
+
+.task {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 2px solid rgb(214, 214, 214);
+}
+
+.new-task {
+    background-color: inherit;
+}
+
+.new-task:hover {
+    background-color: #60555554;
+}
+
+.new-task-card {
+    padding: 10px;
+    border: 0;
+}
+
+.new-list-card {
+    width: 18rem;
+    height: 45px;
+    background-color: #ffffff3d;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+}
+
+.new-list-card:hover,
+.new-task-card:hover {
+    cursor: pointer;
+}
+
+.add-card {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: default;
+}
+
+.add-card button {
+    width: fit-content;
+}
+
+.add-card .close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin: 20px 0 0 20px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.add-card i:hover {
+    background-color: #cdc1c1;
+}
+
+#new_task {
+    position: relative;
+    width: 95%;
+    height: 105px;
+}
+
+#new_task .add-card {
+    visibility: visible;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}

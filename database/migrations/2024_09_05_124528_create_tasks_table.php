@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name', 45);
             $table->text('description')->nullable();
-            $table->integer('position')->default(0);
+            $table->boolean('completed')->default(false);
+            $table->integer('position')->nullable();
             $table->date('due_date')->nullable();
             $table->enum('priority', ['low', 'medium', 'high'])->nullable();
             $table->foreignId('list_id')->references('id')->on('lists')->onDelete('cascade');

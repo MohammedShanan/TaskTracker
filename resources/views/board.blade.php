@@ -4,51 +4,11 @@
 @endsection
 @section('js')
 @vite(['resources/js/board.js'])
+@vite(['resources/js/list.js'])
+@vite(['resources/js/task.js'])
 @endsection
 @section('content')
-        <div class="details-container">
-        <div class="task-details">
-            <div class="details">
-                <div class="date-selection">
-                        <div id="calender">
-                        </div>
-                        <div class="date">
-                            <input type="text" id="datepicker" autocomplete="off">
-                            <button name="save" class="btn btn-primary">Save</button>
-                        </div>
-                </div>
-                <div contenteditable class="task-header">This Task Header</div>
-                <div class="task-due-date">
-                    <input type="checkbox" name="status" id="">
-                    <button class="btn btn-secondary due-date">Date here</button>
-                </div>
-                <div class="task-description">
-                    <h3>Description</h3>
-                    <div style="display: none">This is where the description will be</div>
-                    <div id="edit-description">
-                        <textarea  name="description" id="" cols="30" rows="6"></textarea>
-                        <div>
-                            <button class="btn btn-primary">Save</button>
-                            <button class="btn btn-secondary">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="task-priority">
-                    <h3>priority</h3>
-                    <select class="form-select" name="priority" id="">
-                        <option value="" selected>None</option>
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                    </select>
-                </div>
-                <div id="move-task">
-                    <button class="btn btn-danger">Delete Task</button>
-                    <button class="btn btn-secondary">Move Task</button>
-                </div>
-            </div>
-        </div>
-        </div>
+
         {{-- Delete Board popup --}}
         <div id="popup" class="popup">
             <div class="popup-content">
@@ -64,26 +24,27 @@
         </div>
 <main class="board-main-content bg4">
     <div class="board-info bg-primary-subtle" >
-        <span contenteditable="true" class="board-name" data-name="{{$board->name}}" data-type="board" onblur="changeName(this)" id="board-{{$board->id}}">{{$board->name}}</span>
+        <span contenteditable="true" class="board-name" data-name="{{$board->name}}" data-type="board" onblur="changeName(this, 'board', '{{$board->id}}')" id="board-{{$board->id}}">{{$board->name}}</span>
             <button id="openPopup" class="btn btn-danger">Permanently delete board</button>
     </div>
         <section class="board-content">
             @foreach ($board->lists as $list)
             <div class="list-card card bg-body-tertiary" id="list-{{$list->id}}" >
-                <div contenteditable="true" id="list-{{$list->id}}" class="card-header list-name" data-list-name="{{$list->name}}" data-type="list" onblur="changeName(this)">
+                <div contenteditable="true" id="list-{{$list->id}}" class="card-header list-name" data-list-name="{{$list->name}}" onblur="changeName(this, 'list', '{{$list->id}}')">
                             {{$list->name}}
                 </div> 
                 <ol class="list-group border-0" >
                     @foreach($list->tasks as $task)
-                    <li class="list-group-item task" data-priority="{{$task->priority}}" data-status="{{$task->status}}" data-position="{{$task->position}}" data-list-id="{{$list->id}}" id="task-{{$task->id}}">
+                    <li  class="list-group-item task" data-list-id="{{$list->id}}" data-priority="{{$task->priority}}" id="task-{{$task->id}}" onclick="showDetails(this)">
                         <div class="task-name" >{{$task->name}}</div>                        
                         <ul class="task-properties">
                             @if ($task->due_date)      
-                                <li><i class="fa-solid fa-clock clock"></i>{{ \Carbon\Carbon::parse($task->due_date)->format('M j, Y') }}</li>
+                            <li class="has-due-date"><i class="fa-solid fa-clock clock"></i>{{ \Carbon\Carbon::parse($task->due_date)->format('M j, Y') }}</li>
                             @endif
                             @if ($task->description)      
-                                <li>icon</li>
+                            <li class="has-description">icon</li>
                             @endif
+                            <li class="status">{{$task->completed ? "Completed" : "Not completed"}}</li>
                         </ul>
                     </li>
                     @endforeach

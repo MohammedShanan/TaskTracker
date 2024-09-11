@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "bootstrap-icons": "^1.11.3",
+        "dompurify": "^3.1.6",
         "flatpickr": "^4.6.13"
     }
 }

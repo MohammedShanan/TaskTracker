@@ -11,7 +11,7 @@ class Task extends Model
     protected $fillable = [
         'name',
         'description',
-        'status',
+        'completed',
         'position',
         'due_date',
         'priority',
@@ -20,5 +20,21 @@ class Task extends Model
     public function list()
     {
         return $this->belongsTo(TasksList::class);
+    }
+
+    public function getDefaultPosition()
+    {
+        // Your custom logic for calculating the default position
+        return Task::where('list_id', $this->list_id)->max('position') + 1;
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($task) {
+            if (is_null($task->position)) {
+                $task->position = $task->getDefaultPosition();
+            }
+        });
     }
 }
