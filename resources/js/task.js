@@ -9,10 +9,21 @@ window.showDetails = async function (element) {
     if (task) {
         window.deleteTask = async () => {
             const data = api(route, "Delete", {});
+            const details = document.querySelector(".details-container");
             if (data) {
                 element.remove();
+                details.remove();
             }
         };
+
+        window.changePriority = async (opt) => {
+            const value = opt.value !== "null" ? opt.value : null;
+            const data = api(route, "PUT", { priority: value });
+            if (data) {
+                element.setAttribute("data-priority", opt.value);
+            }
+        };
+
         window.updateCompletion = async (element) => {
             const status = document.querySelector(`#task-${taskId} .status`);
             let body;
@@ -36,7 +47,13 @@ window.showDetails = async function (element) {
             const dueDateLi = document.querySelector(
                 `#task-${taskId} .has-due-date `
             );
-            const unsafeHtml = `<li class="has-due-date"><i class="fa-solid fa-clock clock"></i>${input.value}</li>`;
+            const date = new Date(input.value);
+            const formattedDate = date.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            });
+            const unsafeHtml = `<li class="has-due-date"><i class="fa-solid fa-clock clock"></i>${formattedDate}</li>`;
             const safeHtml = DOMPurify.sanitize(unsafeHtml);
             let data;
             if (element.name === "remove_date") {
@@ -186,16 +203,23 @@ function createTaskDetailsPopup(task) {
                 </div>
                 <div class="task-priority">
                     <h3>priority</h3>
-                    <select class="form-select" name="priority" id="">
-                        <option value="" selected>None</option>
+                    <select class="form-select" name="priority" onchange="changePriority(this)">
+                        <option value="null">None</option>
                         <option value="low">Low</option>
                         <option value="medium">Medium</option>
                         <option value="high">High</option>
                     </select>
                 </div>
                 <div id="task-operations">
-                    <button class="btn btn-danger" onclick="deleteTask()">Delete Task</button>
-                    <button class="btn btn-secondary">Move Task</button>
+                    <button class="btn btn-danger" id="open-task-Popup">Delete Task</button>
+                   <div id="delete-task-popup" class="popup">
+                        <div class="popup-content">
+                            <h2>Delete Task?</h2>
+                            <p>Are you sure you want to delete this task? There is no undo.</p>
+                            <button type="submit" class="btn btn-danger" onclick="deleteTask()" >Yes</button>
+                            <button id="close-task-popup" class="btn btn-secondary" type="button">No</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>`;
@@ -203,6 +227,7 @@ function createTaskDetailsPopup(task) {
         ALLOWED_ATTR: [
             "onclick",
             "onblur",
+            "onchange",
             "contenteditable",
             "class",
             "id",
@@ -218,6 +243,16 @@ function createTaskDetailsPopup(task) {
     });
     detailsContainer.innerHTML = safeHtml;
     document.body.prepend(detailsContainer);
+    document
+        .getElementById("close-task-popup")
+        .addEventListener("click", function () {
+            document.querySelector(".popup").style.display = "none";
+        });
+    document
+        .getElementById("open-task-Popup")
+        .addEventListener("click", function () {
+            document.getElementById("delete-task-popup").style.display = "flex";
+        });
 }
 
 async function createTask(taskName, taskListId) {

@@ -27,7 +27,7 @@ export async function api(route, method, body) {
         }
         if (response.ok) {
             const data = await response.json();
-            console.log("from api " + data.id);
+            console.log("from api " + data);
             return data;
             // Handle the data (e.g., display it on the page)
         } else {

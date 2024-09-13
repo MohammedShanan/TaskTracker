@@ -32,11 +32,11 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         $user_name  = request()->name;
         $user = User::where('name', $user_name)->first();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $authToken = $user->createToken('auth_token')->plainTextToken;
         $secretKey = env('JWT_SECRET');
-        $token = JWT::encode(['user_id' => $user->id], $secretKey, 'HS256');
-        $cookies = [cookie('user_id', $token, 43200)];
-        if (!$request->hasCookie('recently_viewed')){
+        $userIdToken = JWT::encode(['user_id' => $user->id], $secretKey, 'HS256');
+        $cookies = [cookie('user_id', $userIdToken, 43200), cookie('auth_token', $authToken, 43200)];
+        if (!$request->hasCookie('recently_viewed')) {
             $recentlyViewed = cookie('recently_viewed', json_encode([]), 43200);
             array_unshift($cookies, $recentlyViewed);
         }
@@ -53,7 +53,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        Cookie::queue(Cookie::forget('user_id'));
         return redirect('/');
     }
 }

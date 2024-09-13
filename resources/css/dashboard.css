@@ -7,7 +7,8 @@ main.dashboard {
 
 .sidebar {
     background-color: rgb(232, 233, 232);
-    padding: 2px;
+    padding: 5px;
+    border-radius: 4px;
 }
 
 .recent {
@@ -32,6 +33,7 @@ main.dashboard {
     column-gap: 10px;
     background-color: rgba(26, 142, 220, 0.795);
     overflow-y: scroll;
+    border-radius: 4px;
 }
 
 .new-board {

@@ -24,7 +24,7 @@ class ListController extends Controller
     public function store(Request $request, $boardId)
     {
         try {
-            Log::info('User has logged in.' , [$request->all()]);
+            Log::info('User has logged in.', [$request->all()]);
             $list = TasksList::create([
                 'name' => $request->name,
                 'board_id'   => $boardId
@@ -66,8 +66,15 @@ class ListController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TasksList $tasksList)
+    public function destroy($id)
     {
-        //
+        try {
+            $list = TasksList::find($id);
+            $list->delete();
+            return response()->json("deleted List", 200);
+        } catch (\Exception $e) {
+            Log::error('Error updating list: ' . $e->getMessage());
+            return response()->json("not ok", 200);
+        }
     }
 }

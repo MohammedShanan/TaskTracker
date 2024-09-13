@@ -4,6 +4,11 @@ if (newBoard) {
     newBoard.addEventListener("click", function () {
         card.style.display = "block";
     });
+    document.addEventListener("click", function (event) {
+        if (!card.contains(event.target) && event.target !== newBoard) {
+            card.style.display = "none";
+        }
+    });
 }
 
 function newBoardCard() {
@@ -77,4 +82,3 @@ function createButton(type, text, disabled = false, ...classes) {
     button.classList.add(...classes);
     return button;
 }
-

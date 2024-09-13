@@ -36,5 +36,11 @@ class Task extends Model
                 $task->position = $task->getDefaultPosition();
             }
         });
+
+        static::deleting(function ($task) {
+            Task::where('list_id', $task->list_id)
+                ->where('position', '>', $task->position)
+                ->decrement('position');
+        });
     }
 }

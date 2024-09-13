@@ -1,4 +1,23 @@
 import { api } from "./helper";
+const listPopup = document.querySelector("#deleteListPopup");
+window.openPopup = function (element) {
+    listPopup.style.display = "flex";
+    let listId = element.getAttribute("data-list-id");
+    window.deleteList = async () => {
+        const data = api(`lists/${listId}`, "Delete", {});
+        if (data) {
+            const list = document.querySelector(`#list-${listId}`);
+            list.remove();
+            listPopup.style.display = "none";
+        }
+    };
+};
+
+const closePopup = document.querySelector("#closeListPopup");
+closePopup.addEventListener("click", function () {
+    listPopup.style.display = "none";
+});
+
 newList();
 function newList() {
     const newListCard = document.querySelector(".new-list-card");
@@ -40,8 +59,9 @@ export async function createList(listName, listBoardId) {
         const id = data.id;
         console.log("from create list" + id);
         const list = `<div class="list-card card bg-body-tertiary" id="list-${id}">
-                <div contenteditable="true" id="list-${id}" class="card-header list-name" data-list-name="${listName}" data-type="list" onblur="changeName(this)">
-                            ${listName}
+                <div  id="list-${id}" class="list-header">
+                    <div contenteditable="true" class="list-name card-header" data-list-name="${listName}" onblur="changeName(this, 'list', '${id}')">${listName}</div>
+                    <button class="btn btn-danger" onclick="openPopup(this)" data-list-id="${id}">Delete</button>
                 </div> 
                 <ol class="list-group border-0" >
                     <li class="hide list-group-item" id='new_task'>
