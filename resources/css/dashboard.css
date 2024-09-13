@@ -31,7 +31,7 @@ main.dashboard {
     grid-auto-rows: max-content;
     row-gap: 10px;
     column-gap: 10px;
-    background-color: rgba(26, 142, 220, 0.795);
+    background-color: rgba(255, 255, 255, 0.936);
     overflow-y: scroll;
     border-radius: 4px;
 }
@@ -74,4 +74,10 @@ main.dashboard {
     border-radius: 10px;
     color: white;
     font-weight: bold;
+    /* box-shadow: 10px 5px 15px 5px rgba(0, 0, 0, 0.5); */
+    box-shadow: 10px 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.new-board {
+    color: black;
 }
