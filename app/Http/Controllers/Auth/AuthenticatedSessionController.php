@@ -50,7 +50,8 @@ class AuthenticatedSessionController extends Controller
     {
 
         Auth::guard('web')->logout();
-
+        Cookie::queue(Cookie::forget('user_id'));
+        Cookie::queue(Cookie::forget('recently_viewed'));
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/');
