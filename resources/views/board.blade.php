@@ -78,7 +78,7 @@
                 </div>
             @endforeach
             <div class="new-list-card card">
-                Add another list
+                Add new list
                 <div class="add-card" id="new_list">
                     <input class="form-control" type="text" name="list_name" placeholder="Enter list name...">
                     <button id="add_list_btn" class="btn btn-primary mt-3" data-board-id="{{ $board->id }}">Add
