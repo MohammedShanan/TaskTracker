@@ -1,3 +1,11 @@
+/**
+ * Performs an API request to the specified route with the given method and body.
+ *
+ * @param {string} route - The API route (e.g., 'boards/1').
+ * @param {string} method - The HTTP method (e.g., 'GET', 'POST').
+ * @param {object} [body=null] - The body to send with the request, or null for GET requests.
+ * @returns {Promise<object|null>} The response data as a JavaScript object, or null if an error occurs.
+ */
 export async function api(route, method, body) {
     try {
         let response;
@@ -27,7 +35,6 @@ export async function api(route, method, body) {
         }
         if (response.ok) {
             const data = await response.json();
-            console.log("from api " + data);
             return data;
             // Handle the data (e.g., display it on the page)
         } else {
@@ -40,6 +47,13 @@ export async function api(route, method, body) {
     }
 }
 
+/**
+ * Toggles a class on an HTML element between two specified classes.
+ *
+ * @param {HTMLElement} element - The element to modify.
+ * @param {string} class1 - The first class name.
+ * @param {string} class2 - The second class name.
+ */
 export function toggleClass(element, class1, class2) {
     if (element.classList.contains(class1)) {
         element.classList.remove(class1);
@@ -50,6 +64,13 @@ export function toggleClass(element, class1, class2) {
     }
 }
 
+/**
+ * Creates an HTML element with specified classes.
+ *
+ * @param {string} tagName - The type of the element (e.g., 'div', 'span').
+ * @param {string[]} classes - An array of CSS class names to add to the element.
+ * @returns {HTMLElement} The newly created element with the specified classes.
+ */
 export function createElementWithClasses(element, classes) {
     const ele = document.createElement(element);
     ele.classList.add(...classes);

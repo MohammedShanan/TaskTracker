@@ -18,6 +18,7 @@ main.dashboard {
 
 .recent li {
     border-top: 1px solid black;
+    padding: 2px;
 }
 
 .recent li a {
@@ -29,8 +30,9 @@ main.dashboard {
     display: grid;
     grid-template-columns: repeat(4, auto);
     grid-auto-rows: max-content;
+    position: relative;
     row-gap: 10px;
-    column-gap: 10px;
+    column-gap: 20px;
     background-color: rgba(255, 255, 255, 0.936);
     overflow-y: scroll;
     border-radius: 4px;
@@ -47,11 +49,11 @@ main.dashboard {
 
 .new-board-card {
     display: none;
-    position: sticky;
-    top: 5px;
-    left: 250px;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    top: 100px;
+    left: 400px;
+    width: 20%;
+    height: fit-content;
     padding: 10px;
     z-index: 100;
 }

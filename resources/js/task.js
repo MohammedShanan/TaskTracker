@@ -1,12 +1,13 @@
 import flatpickr from "flatpickr";
 import DOMPurify from "dompurify";
 import { api, toggleClass } from "./helper.js";
-newTask();
+// Show task details and handle various actions
 window.showDetails = async function (element) {
     const taskId = element.id.split("-")[1];
     const task = await api(`tasks/${taskId}`, "GET", {});
     const route = `tasks/${taskId}`;
     if (task) {
+        // Delete task functionality
         window.deleteTask = async () => {
             const data = api(route, "Delete", {});
             const details = document.querySelector(".details-container");
@@ -16,6 +17,7 @@ window.showDetails = async function (element) {
             }
         };
 
+        // Change task priority functionality
         window.changePriority = async (opt) => {
             const value = opt.value !== "null" ? opt.value : null;
             const data = api(route, "PUT", { priority: value });
@@ -24,6 +26,7 @@ window.showDetails = async function (element) {
             }
         };
 
+        // Update task completion status
         window.updateCompletion = async (element) => {
             const status = document.querySelector(`#task-${taskId} .status`);
             let body;
@@ -32,11 +35,12 @@ window.showDetails = async function (element) {
                 status.textContent = "Completed";
             } else {
                 body = { completed: false };
-                status.textContent = "Not Completed";
+                status.textContent = "Not completed";
             }
             api(route, "PUT", body);
         };
 
+        // Update task due date functionality
         window.updateDueDate = async (element) => {
             const input = document.querySelector("#datepicker");
             const dataSelection = document.querySelector(".date-selection");
@@ -78,6 +82,7 @@ window.showDetails = async function (element) {
             }
         };
 
+        // Update task description functionality
         window.updateDescription = async () => {
             const description = document.querySelector("#description");
             const edit = document.querySelector("#edit-description");
@@ -87,22 +92,32 @@ window.showDetails = async function (element) {
             const body = { description: textarea.value };
             const data = api(route, "PUT", body);
             if (data) {
-                description.textContent = textarea.value;
+                if (textarea.value) {
+                    description.textContent = textarea.value;
+                } else {
+                    description.textContent =
+                        "Add more detailed description...";
+                }
+
                 description.style.display = "block";
                 edit.style.display = "none";
             }
         };
 
+        // Edit task description
         window.editDescription = function (element) {
             element.style.display = "none";
             const edit = document.querySelector("#edit-description");
             const textarea = document.querySelector(
                 "#edit-description textarea"
             );
-            textarea.value = element.textContent;
+            if (task.description) {
+                textarea.value = element.textContent;
+            }
             edit.style.display = "flex";
         };
 
+        // Close the edit description view
         window.closeEdit = function () {
             const description = document.querySelector("#description");
             const textarea = document.querySelector(
@@ -114,6 +129,7 @@ window.showDetails = async function (element) {
             description.style.display = "block";
         };
 
+        // Show calendar for selecting due date
         window.showCalender = function (element) {
             const dataSelection = document.querySelector(".date-selection");
             dataSelection.style.visibility = "visible";
@@ -140,10 +156,12 @@ window.showDetails = async function (element) {
             fp.open();
         };
 
+        // Create task details popup
         createTaskDetailsPopup(task);
     }
 };
 
+// Create the task details popup
 function createTaskDetailsPopup(task) {
     const detailsContainer = document.createElement("div");
     detailsContainer.className = "details-container";
@@ -276,6 +294,10 @@ async function createTask(taskName, taskListId) {
     }
 }
 
+/**
+ * Initializes event listeners for showing and hiding the new task card.
+ */
+newTask();
 function newTask() {
     document.addEventListener("click", function (event) {
         const target = event.target;
@@ -294,6 +316,11 @@ function newTask() {
     });
 }
 
+/**
+ * Shows the new task prompt for a specific list and focuses the input field.
+ *
+ * @param {HTMLElement} element - The element triggering the prompt.
+ */
 window.newTaskPrompt = function (element) {
     const listId = element.getAttribute("data-list-id");
     const addTask = document.querySelector(`#list-${listId} #new_task`);
@@ -303,6 +330,11 @@ window.newTaskPrompt = function (element) {
     toggleClass(addTask, "hide", "show");
 };
 
+/**
+ * Adds a new task to a specific list if the input value is not empty.
+ *
+ * @param {HTMLElement} element - The element triggering the task addition.
+ */
 window.addTask = function (element) {
     const listId = element.getAttribute("data-list-id");
     const input = document.querySelector(`#list-${listId} input`);

@@ -59,9 +59,6 @@
                                                 class="fa-solid fa-clock clock"></i>{{ \Carbon\Carbon::parse($task->due_date)->format('M j, Y') }}
                                         </li>
                                     @endif
-                                    @if ($task->description)
-                                        <li class="has-description">icon</li>
-                                    @endif
                                     <li class="status">{{ $task->completed ? 'Completed' : 'Not completed' }}</li>
                                 </ul>
                             </li>
