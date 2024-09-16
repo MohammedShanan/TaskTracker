@@ -8,16 +8,32 @@ use Illuminate\Database\Eloquent\Model;
 class Board extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        "name",
-        "user_id"
+        'name',
+        'user_id',
     ];
 
+    /**
+     * Get the user that owns the board.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get the lists associated with the board.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function lists()
     {
         return $this->hasMany(TasksList::class);
