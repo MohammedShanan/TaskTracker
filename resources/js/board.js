@@ -13,15 +13,18 @@ document.addEventListener("DOMContentLoaded", function () {
         const newName = element.textContent.trim();
         if (newName) {
             updateName(type, id, newName)
-                .then(() => {
-                    if (type === "board") {
-                        document.querySelector("title").textContent = newName;
-                    } else if (type === "task") {
-                        document.querySelector(
-                            `#task-${id} .task-name`
-                        ).textContent = newName;
+                .then((resolved, reject) => {
+                    if (resolved) {
+                        if (type === "board") {
+                            document.querySelector("title").textContent =
+                                newName;
+                        } else if (type === "task") {
+                            document.querySelector(
+                                `#task-${id} .task-name`
+                            ).textContent = newName;
+                        }
+                        element.setAttribute("data-name", newName);
                     }
-                    element.setAttribute("data-name", newName);
                 })
                 .catch((error) =>
                     console.error("Failed to update name:", error)
@@ -44,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const body = { name: newName };
 
         try {
-            await api(route, "PUT", body);
+            return await api(route, "PUT", body);
         } catch (error) {
             console.error("API request failed:", error);
         }
